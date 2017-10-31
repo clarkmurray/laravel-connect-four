@@ -19,8 +19,8 @@ Route::get('/', function () {
 	$rows = 6;
 	$columns = 7;
 	for ($r=0; $r < $rows; $r++) {
-		for ($c = 0; $columns < 7; $c++) {
-			$board[$r][$c]['color'] = 'red';
+		for ($c = 0; $c < $columns; $c++) {
+			$board[$r][$c] = 'red';
 		}
 	}
 
