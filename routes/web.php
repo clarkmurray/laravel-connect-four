@@ -1,5 +1,4 @@
 <?php
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -10,72 +9,83 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
 Route::get('/', function () {
+  return redirect()->route('restart');
+});
 
-	//TODO: fix this mess, it's broken
 
+Route::get('game/{id}/drop/{column}', function($id, $column) {
 
-	$players = ['Red', 'Blue'];
-   	$rows = 6;
-    $columns = 7;
+  // Get the current game
+  $game = \App\Game::find($id);
+  $board = json_decode($game->board);
 
-	$turn = 5;
-	$currentPlayer = $players[$turn % 2];
-	$board = [];
-	for ($r=0; $r < $rows; $r++) {
-		for ($c = 0; $c < $columns; $c++) {
-			$board[$r][$c] = '';
-		}
-	}
+  // Put checker in column
+  $placed_checker = false;
+  for ($i = 0; $i < $game->rows; $i++) {
+    if($board[$i][$column] === '') {
+      $board[$i][$column] = $game->players[$game->turn % 2];
+      $placed_checker = true;
+      break;
+    }
+  }
 
-    return view('board', compact('currentPlayer', 'board', 'rows', 'columns', 'turn')
-		);
-})->name('board');
+  if ($placed_checker) {
+      // Did anyone win?
 
+      // Increment turn counter
+      $game->turn++;
+      $game->board = json_encode($board);
+      
+      // Save the game state
+      $game->save();
+  }
+
+  // Show the board
+  return redirect()->route('game', ['id' => $id]);
+
+});
 
 
 Route::get('game/{id}', function($id) {
 
-	$game = \App\Game::find($id);
-	$game->turn = 1;
-	$turn = $game->turn;
-	$rows = $game->rows;
-	$columns = $game->columns;
-
-
-	$currentPlayer = $game->players[$turn % 2];
-	$board = [];
-	for ($r=0; $r < $rows; $r++) {
-		for ($c = 0; $c < $columns; $c++) {
-			$board[$r][$c] = '';
-		}
-	}
-
-    return view('board', compact('currentPlayer', 'board', 'rows', 'columns', 'turn')
-		);
-
-	
+  $game = \App\Game::find($id);
+  $game_id = $id;
+  $turn = $game->turn;
+  $rows = $game->rows;
+  $columns = $game->columns;
+  $board = json_decode($game->board);
+  $currentPlayer = $game->players[$turn % 2];
+  
+  return view('board', compact('game_id', 'currentPlayer', 'turn', 'board', 'rows', 'columns'));
 
 })->name('game');
 
 
-
 Route::get('/restart', function() {
 
-	// TODO: End the old game
-	// ??? set in_progress to false ???
-	// Not safe to do until we have user logins!!!
+  // TODO: End the old game
+  // ??? set in_progress to false ???
+  // Not safe to do until we have user logins!!!
+  // Make a new game
 
+  $game = new \App\Game;
+  $game->turn = 1;
+  $board = [];
 
-	// Make a game
-	$game = new \App\Game;
-	$game->save();
+  for ($r = 0; $r < $game->rows; $r++) {
+    for ($c = 0; $c < $game->columns; $c++) {
+      $board[$r][$c] = '';
+    }
+  }
 
-	$id = $game->id;
+  $game->board = json_encode($board);
+  $game->save();
 
+  // What's my id?
+  $id = $game->id;
 
-	// Show the board
-	return redirect()->route('game', ['id' => $id]);
+  // Show the board
+  return redirect()->route('game', ['id' => $id]);
 
-});
+})->name('restart');
