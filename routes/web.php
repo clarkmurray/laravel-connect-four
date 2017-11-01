@@ -38,6 +38,7 @@ Route::get('/', function () {
 Route::get('game/{id}', function($id) {
 
 	$game = \App\Game::find($id);
+	$game->turn = 1;
 	$turn = $game->turn;
 	$rows = $game->rows;
 	$columns = $game->columns;
@@ -64,6 +65,7 @@ Route::get('/restart', function() {
 
 	// TODO: End the old game
 	// ??? set in_progress to false ???
+	// Not safe to do until we have user logins!!!
 
 
 	// Make a game
