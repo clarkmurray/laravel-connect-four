@@ -3,7 +3,8 @@
 <head>
 	<title>Laravel Connect Four</title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
-	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="/style.css">
+	<script src="https://use.fontawesome.com/14f1f2c704.js"></script>
 
 </head>
 <body class="container text-center">
@@ -12,13 +13,13 @@
 
 	<div class="row justify-content-center mt-5">
 
-			<div class="drop"><button class="btn btn-light">Drop!</button></div>
-			<div class="drop"><button class="btn btn-light">Drop!</button></div>
-			<div class="drop"><button class="btn btn-light">Drop!</button></div>
-			<div class="drop"><button class="btn btn-light">Drop!</button></div>
-			<div class="drop"><button class="btn btn-light">Drop!</button></div>
-			<div class="drop"><button class="btn btn-light">Drop!</button></div>
-			<div class="drop"><button class="btn btn-light">Drop!</button></div>
+			<div class="drop"><button class="btn btn-light"><i class="fa fa-arrow-down" aria-hidden="true"></i></button></div>
+			<div class="drop"><button class="btn btn-light"><i class="fa fa-arrow-down" aria-hidden="true"></i></button></div>
+			<div class="drop"><button class="btn btn-light"><i class="fa fa-arrow-down" aria-hidden="true"></i></button></div>
+			<div class="drop"><button class="btn btn-light"><i class="fa fa-arrow-down" aria-hidden="true"></i></button></div>
+			<div class="drop"><button class="btn btn-light"><i class="fa fa-arrow-down" aria-hidden="true"></i></button></div>
+			<div class="drop"><button class="btn btn-light"><i class="fa fa-arrow-down" aria-hidden="true"></i></button></div>
+			<div class="drop"><button class="btn btn-light"><i class="fa fa-arrow-down" aria-hidden="true"></i></button></div>
 
 	</div>
 
@@ -46,8 +47,14 @@
 		Current Player: {{ $currentPlayer }}
 	</div>
 
+	<div class="mb-3">
+		Turn: {{ $turn }}
+	</div>
+
 	<div class="mt-3 mb-3">
-		<button class="btn btn-light">Restart Game</button>
+		<form method="get" action="/restart">
+			<button class="btn btn-light">Restart Game</button>
+		</form>
 	</div>
 
 </body>
