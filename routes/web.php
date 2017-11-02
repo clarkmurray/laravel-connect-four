@@ -9,17 +9,10 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-
+// Route::get('user/{id}', 'UserController@show');
 Route::get('/', function () {
   return redirect()->route('restart');
 });
-
-
 Route::get('game/{id}/drop/{column}', 'GameController@drop');
-
-
 Route::get('game/{id}', 'GameController@game')->name('game');
-
-
 Route::get('/restart', 'GameController@restart')->name('restart');
