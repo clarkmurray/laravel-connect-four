@@ -2,7 +2,7 @@
 
 ## Rules
 
-1. Play  is on a 6-row by 7-column board.
+1. Play is on a 6-row by 7-column board.
 
 2. The board is oriented vertically.
 
